@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Vaxus</title>
+  <link rel="icon" type="image/png" href="Vaxus.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #efe7d8;
+      --bg-soft: #f6f0e5;
+      --paper: rgba(255, 250, 241, 0.78);
+      --paper-strong: #fbf6ec;
+      --ink: #1f241c;
+      --muted: #5f6957;
+      --line: rgba(54, 65, 48, 0.16);
+      --olive: #5c6b49;
+      --olive-deep: #2f3b25;
+      --gold: #b28c55;
+      --alert-bg: #f3dec7;
+      --alert-line: rgba(136, 90, 41, 0.22);
+      --shadow: 0 28px 80px rgba(41, 47, 33, 0.12);
+      --radius-xl: 36px;
+      --radius-lg: 26px;
+      --radius-md: 20px;
+      --radius-sm: 14px;
+      --max: 1220px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Manrope", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top left, rgba(255, 255, 255, 0.7), transparent 34%),
+        radial-gradient(circle at 85% 20%, rgba(92, 107, 73, 0.15), transparent 22%),
+        linear-gradient(180deg, #e8decc 0%, var(--bg) 42%, #e9dfce 100%);
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.28;
+      background-image:
+        linear-gradient(rgba(95, 105, 87, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(95, 105, 87, 0.05) 1px, transparent 1px);
+      background-size: 48px 48px;
+      mask-image: radial-gradient(circle at center, black 32%, transparent 82%);
+    }
+
+    a { color: inherit; }
+
+    main {
+      width: min(calc(100% - 40px), var(--max));
+      margin: 0 auto;
+      padding: 24px 0 64px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 16px 0 28px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      font-size: 0.74rem;
+      font-weight: 800;
+      color: var(--olive-deep);
+    }
+
+    .brand-mark {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      border: 1px solid rgba(47, 59, 37, 0.16);
+      display: grid;
+      place-items: center;
+      background: rgba(255, 248, 236, 0.7);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.5);
+      font-family: "Cormorant Garamond", serif;
+      font-size: 1.25rem;
+      font-weight: 700;
+    }
+
+    .top-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: flex-end;
+    }
+
+    .micro-link {
+      text-decoration: none;
+      padding: 10px 16px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      color: var(--muted);
+      background: rgba(255, 251, 245, 0.44);
+      backdrop-filter: blur(14px);
+      font-size: 0.84rem;
+      font-weight: 700;
+      transition: transform 0.25s ease, background 0.25s ease, border-color 0.25s ease;
+    }
+
+    .micro-link:hover {
+      transform: translateY(-1px);
+      background: rgba(255, 251, 245, 0.8);
+      border-color: rgba(47, 59, 37, 0.24);
+    }
+
+    .hero-shell {
+      position: relative;
+      overflow: hidden;
+      padding: clamp(30px, 5vw, 50px);
+      border-radius: 44px;
+      border: 1px solid rgba(54, 65, 48, 0.12);
+      background:
+        linear-gradient(135deg, rgba(255, 248, 237, 0.88), rgba(242, 233, 216, 0.76)),
+        rgba(255,255,255,0.5);
+      backdrop-filter: blur(18px);
+      box-shadow: var(--shadow);
+    }
+
+    .hero-shell::before,
+    .hero-shell::after {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      filter: blur(2px);
+      pointer-events: none;
+    }
+
+    .hero-shell::before {
+      width: 340px;
+      height: 340px;
+      right: -100px;
+      top: -80px;
+      background: radial-gradient(circle, rgba(92, 107, 73, 0.2), transparent 70%);
+    }
+
+    .hero-shell::after {
+      width: 260px;
+      height: 260px;
+      left: -60px;
+      bottom: -80px;
+      background: radial-gradient(circle, rgba(178, 140, 85, 0.18), transparent 70%);
+    }
+
+    .hero {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 1.3fr 0.8fr;
+      gap: 28px;
+      align-items: end;
+    }
+
+    .eyebrow,
+    .section-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 18px;
+      color: var(--olive);
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before,
+    .section-label::before {
+      content: "";
+      width: 44px;
+      height: 1px;
+      background: rgba(92, 107, 73, 0.48);
+    }
+
+    h1,
+    h2,
+    h3 {
+      margin: 0;
+      font-family: "Cormorant Garamond", serif;
+      font-weight: 600;
+      letter-spacing: -0.03em;
+    }
+
+    h1 {
+      max-width: 9ch;
+      font-size: clamp(4rem, 9vw, 7rem);
+      line-height: 0.88;
+    }
+
+    .hero-copy p,
+    .section-copy,
+    .service-card p,
+    .access-card p,
+    .faq-item p,
+    .metric p,
+    .warning p {
+      line-height: 1.8;
+      color: var(--muted);
+    }
+
+    .hero-copy p {
+      max-width: 670px;
+      margin: 24px 0 0;
+      font-size: 1.04rem;
+    }
+
+    .cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 28px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 56px;
+      padding: 14px 24px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      text-decoration: none;
+      font-size: 0.95rem;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease, border-color 0.25s ease;
+    }
+
+    .button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 18px 36px rgba(41, 47, 33, 0.12);
+    }
+
+    .button-primary {
+      color: #f8f4eb;
+      background: linear-gradient(135deg, var(--olive-deep), var(--olive));
+    }
+
+    .button-secondary {
+      color: var(--olive-deep);
+      background: rgba(255, 251, 245, 0.64);
+      border-color: rgba(47, 59, 37, 0.16);
+    }
+
+    .hero-panel {
+      padding: 26px;
+      border-radius: 30px;
+      background: linear-gradient(180deg, rgba(53, 64, 43, 0.98), rgba(37, 45, 31, 0.94));
+      color: #f6f0e6;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.08);
+    }
+
+    .hero-panel .section-label {
+      margin-bottom: 20px;
+      color: rgba(246, 240, 230, 0.7);
+    }
+
+    .hero-panel .section-label::before {
+      background: rgba(246, 240, 230, 0.35);
+    }
+
+    .hero-panel p {
+      margin: 0 0 20px;
+      color: rgba(246, 240, 230, 0.8);
+      line-height: 1.75;
+    }
+
+    .metric-list {
+      display: grid;
+      gap: 14px;
+    }
+
+    .metric {
+      padding: 16px 18px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .metric strong {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 1.2rem;
+      font-family: "Cormorant Garamond", serif;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    .metric p {
+      margin: 0;
+      font-size: 0.92rem;
+      color: rgba(246, 240, 230, 0.7);
+    }
+
+    section {
+      margin-top: 28px;
+    }
+
+    .section-shell {
+      padding: clamp(28px, 4vw, 42px);
+      border-radius: var(--radius-xl);
+      border: 1px solid rgba(54, 65, 48, 0.1);
+      background: var(--paper);
+      backdrop-filter: blur(16px);
+      box-shadow: var(--shadow);
+    }
+
+    .split {
+      display: grid;
+      grid-template-columns: 0.95fr 1.05fr;
+      gap: 26px;
+      align-items: start;
+    }
+
+    .section-heading {
+      max-width: 10ch;
+      font-size: clamp(2.8rem, 6vw, 4.6rem);
+      line-height: 0.92;
+    }
+
+    .section-copy {
+      margin: 18px 0 0;
+      max-width: 540px;
+      font-size: 1rem;
+    }
+
+    .services-grid,
+    .access-grid,
+    .faq-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .service-card,
+    .access-card,
+    .faq-item,
+    .warning,
+    .cta-banner {
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--line);
+      background: rgba(255, 251, 244, 0.84);
+      padding: 24px;
+    }
+
+    .service-card h3,
+    .access-card h3,
+    .faq-item h3 {
+      font-size: 2rem;
+      line-height: 0.95;
+      margin-bottom: 14px;
+    }
+
+    .service-card p,
+    .access-card p,
+    .faq-item p {
+      margin: 0;
+      font-size: 0.96rem;
+    }
+
+    .service-card strong,
+    .access-card strong {
+      color: var(--olive-deep);
+    }
+
+    .service-card:nth-child(2n),
+    .access-card:nth-child(2n) {
+      transform: translateY(18px);
+    }
+
+    .service-index {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 42px;
+      height: 42px;
+      margin-bottom: 18px;
+      border-radius: 50%;
+      background: rgba(92, 107, 73, 0.12);
+      color: var(--olive);
+      font-size: 0.9rem;
+      font-weight: 800;
+    }
+
+    .warning {
+      display: grid;
+      gap: 18px;
+      background: linear-gradient(180deg, rgba(244, 226, 204, 0.95), rgba(242, 218, 187, 0.8));
+      border-color: var(--alert-line);
+    }
+
+    .warning h3 {
+      font-size: 2.2rem;
+      line-height: 0.95;
+    }
+
+    .warning p {
+      margin: 0;
+      font-size: 0.98rem;
+    }
+
+    .clone-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .clone-pill {
+      padding: 14px 16px;
+      border-radius: 999px;
+      background: rgba(255, 246, 235, 0.74);
+      border: 1px solid rgba(136, 90, 41, 0.16);
+      color: #7c5632;
+      text-align: center;
+      font-size: 0.9rem;
+      font-weight: 700;
+    }
+
+    .access-card a {
+      display: inline-flex;
+      margin-top: 18px;
+      color: var(--olive-deep);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 800;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+    }
+
+    .access-card a::after {
+      content: "↗";
+      margin-left: 8px;
+    }
+
+    .cta-banner {
+      display: grid;
+      grid-template-columns: 1.05fr auto;
+      gap: 18px;
+      align-items: center;
+      background: linear-gradient(135deg, rgba(47, 59, 37, 0.96), rgba(72, 86, 58, 0.9));
+      color: #f7f1e8;
+      border-color: rgba(255,255,255,0.08);
+    }
+
+    .cta-banner p {
+      margin: 10px 0 0;
+      color: rgba(247, 241, 232, 0.76);
+      line-height: 1.75;
+    }
+
+    .cta-banner .button-secondary {
+      background: rgba(255,255,255,0.12);
+      border-color: rgba(255,255,255,0.1);
+      color: #fff;
+      min-width: 220px;
+    }
+
+    footer {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 28px 6px 0;
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+
+    @media (max-width: 1080px) {
+      .hero,
+      .split,
+      .cta-banner {
+        grid-template-columns: 1fr;
+      }
+
+      .service-card:nth-child(2n),
+      .access-card:nth-child(2n) {
+        transform: none;
+      }
+    }
+
+    @media (max-width: 760px) {
+      main {
+        width: min(calc(100% - 24px), var(--max));
+      }
+
+      .topbar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .top-links {
+        justify-content: flex-start;
+      }
+
+      .services-grid,
+      .access-grid,
+      .faq-grid,
+      .clone-grid {
+        grid-template-columns: 1fr;
+      }
+
+      h1 {
+        max-width: none;
+        font-size: clamp(3.2rem, 16vw, 4.8rem);
+      }
+
+      .section-heading {
+        max-width: none;
+        font-size: clamp(2.6rem, 12vw, 3.7rem);
+      }
+
+      .hero-shell,
+      .section-shell {
+        border-radius: 28px;
+      }
+
+      .button,
+      .cta-banner .button-secondary {
+        width: 100%;
+      }
+    }
+
+    /* Animations d'apparition */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header class="topbar fade-in top-section">
+      <div class="brand">
+        <span class="brand-mark">V</span>
+        <span>Vaxus</span>
+      </div>
+      <nav class="top-links" aria-label="Navigation secondaire">
+        <a class="micro-link" href="#official-links">Liens officiels</a>
+        <a class="micro-link" href="#safety">Protection</a>
+        <a class="micro-link" href="#faq">Questions</a>
+      </nav>
+    </header>
+
+    <section class="hero-shell fade-in top-section">
+      <div class="hero">
+        <div class="hero-copy">
+          <h1>Vaxus, Connect. Share. Dominate.</h1>
+          <p>
+            Vaxus a été créé pour que les personnes qui utilise nos autres sites puissent connaître s'il y a un changement de lien ou pas, et pour que vous puissiez suivre toutes les grandes mises à jour ajouter à celle-ci, tout cela sera publié sur notre Telegram.
+          </p>
+          <div class="cta-row">
+            <a class="button button-primary" href="https://t.me/vaxus_netlify_app" target="_blank" rel="noreferrer">Rejoindre le Telegram</a>
+            <a class="button button-secondary" href="#official-links">Voir les accès</a>
+          </div>
+        </div>
+
+        <aside class="hero-panel">
+          <span class="section-label">Essentiels en direct</span>
+          <p>
+            Nous avons fait un design beau et facile à cromprendre qui comprennent trois thèmes abordées :
+          </p>
+          <div class="metric-list">
+            <div class="metric">
+              <strong>Domaine prioritaire</strong>
+              <p>`vaxus.netlify.app` reste l’adresse principale recommandée.</p>
+            </div>
+            <div class="metric">
+              <strong>Telegram direct</strong>
+              <p>Le canal officiel reste le point le plus fiable pour les mises à jour.</p>
+            </div>
+            <div class="metric">
+              <strong>Anti-clones</strong>
+              <p>Les domaines trompeurs sont isolés dans une section dédiée et visible.</p>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section id="official-links" class="fade-in">
+      <div class="section-shell">
+        <span class="section-label">Liens officiels</span>
+        <div class="access-grid">
+          <article class="access-card">
+            <h3>Batterie en Grand</h3>
+            <p>Un site qui affiche l’heure, la date et le niveau de batterie, avec un design que tu peux personnaliser comme tu veux.</p>
+            <a href="https://batterie-en-grand.netlify.app" target="_blank" rel="noreferrer">Ouvrir Batterie en Grand</a>
+          </article>
+          <article class="access-card">
+            <h3>High Land News</h3>
+            <p>Une chaîne TV où tu peux envoyer des messages personnalisés avec ton pseudo.</p>
+            <a href="https://highlandnews.netlify.app" target="_blank" rel="noreferrer">Ouvrir High Land News</a>
+          </article>
+          <article class="access-card">
+            <h3>Industrialist Wiki</h3>
+            <p>Un wiki complet avec tous les schémas du jeu Industrialist.</p>
+            <a href="https://industrialistwiki.netlify.app" target="_blank" rel="noreferrer">Ouvrir Industrialist Wiki</a>
+          </article>
+          <article class="access-card">
+            <h3>Aucune idée vous en avez une ?</h3>
+            <p>Propose-nous un projet ! Envoie ton idée dans notre Telegram.</p>
+            <a href="https://aucune-idee-vous-en-avez-une.netlify.app" target="_blank" rel="noreferrer">Ouvrir Aucune idée vous en avez une ?</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="safety" class="fade-in">
+      <div class="section-shell split">
+        <div class="warning">
+          <span class="section-label">Protection</span>
+          <h3>Attention aux faux domaines.</h3>
+          <p>
+            Certains sites reprennent le nom Vaxus sans être officiels. Ils peuvent introduire des
+            redirections douteuses, des pubs agressives ou une expérience trompeuse. Si tu hésites,
+            reviens ici ou passe par le Telegram officiel.
+          </p>
+          <p>
+            La référence prioritaire reste <strong>vaxus.netlify.app</strong>. Les autres adresses listées plus haut
+            sont les seules alternatives prévues sur cette page.
+          </p>
+        </div>
+
+        <div>
+          <span class="section-label">Clones connus</span>
+          <div class="clone-grid">
+            <div class="clone-pill">AUCUN CLONE RECENSÉ</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="faq" class="fade-in">
+      <div class="section-shell">
+        <span class="section-label">Questions</span>
+        <div class="faq-grid">
+          <article class="faq-item">
+            <h3>Quelle est l’adresse officielle ?</h3>
+            <p>La référence principale actuellement mise en avant ici est <strong>vaxus.netlify.app</strong>.</p>
+          </article>
+          <article class="faq-item">
+            <h3>Comment éviter les clones ?</h3>
+            <p>Reste sur les domaines listés sur cette page et vérifie Telegram avant de suivre un autre lien.</p>
+          </article>
+          <article class="faq-item">
+            <h3>Où suivre les annonces ?</h3>
+            <p>Le canal Telegram officiel reste le point le plus direct pour les mises à jour et alertes.</p>
+          </article>
+          <article class="faq-item">
+            <h3>Vaxus peut changer de domaine ?</h3>
+            <p>Oui ! Certaines fois, le domaine d'un site peut être bloqué, et ces sites peuvent trouver un autre nom de domaine, cela peut arriver à Vaxus, mais pas d'inquiétude, vous serez avertis sur notre Telegram Officiel si cela devait arriver !</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="fade-in">
+      <div class="cta-banner">
+        <div>
+          <span class="section-label">Lien de communication</span>
+          <h2>Utiliser le canal officiel comme point d’entrée principal.</h2>
+          <p>
+            En cliquant sur le bouton ci-dessous, tu accèdes au canal Telegram officiel de Vaxus, là-bas tu auras toutes les alertes, mises à jour et informations utiles.
+          </p>
+        </div>
+        <a class="button button-secondary" href="https://t.me/vaxus_netlify_app" target="_blank" rel="noreferrer">Ouvrir Telegram</a>
+      </div>
+    </section>
+
+    <footer>
+      <div>Vaxus créé par Red Enfer</div>
+      <div>© 2026 Vaxus</div>
+    </footer>
+  </main>
+
+  <script>
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        } else {
+          entry.target.classList.remove('visible');
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+    // Reset animations when scrolling back to top, but keep top sections visible
+    window.addEventListener('scroll', () => {
+      if (window.scrollY < 100) {
+        document.querySelectorAll('.fade-in:not(.top-section)').forEach(el => el.classList.remove('visible'));
+      }
+    });
+  </script>
+</body>
+</html>
